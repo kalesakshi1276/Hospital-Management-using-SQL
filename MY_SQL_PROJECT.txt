@@ -1,0 +1,216 @@
+CREATE TABLE Doctor (
+    Doctor_ID NUMBER PRIMARY KEY,
+    Name VARCHAR2(100) NOT NULL,
+    Specialization VARCHAR2(100),
+    Phone_Number VARCHAR2(15),
+    Email VARCHAR2(100) UNIQUE
+);
+--------------------------------------------
+
+CREATE TABLE Patient (
+    Patient_ID NUMBER PRIMARY KEY,
+    Name VARCHAR2(100) NOT NULL,
+    Date_of_Birth DATE,
+    Address VARCHAR2(255),
+    Phone_Number VARCHAR2(15),
+    Email VARCHAR2(100) UNIQUE,
+    Emergency_Contact VARCHAR2(15)
+);
+--------------------------------------------
+CREATE TABLE Nurse (
+    Nurse_ID NUMBER PRIMARY KEY,
+    Name VARCHAR2(100) NOT NULL,
+    Department VARCHAR2(100),
+    Phone_Number VARCHAR2(15),
+    Email VARCHAR2(100) UNIQUE
+);
+--------------------------------------------
+CREATE TABLE Appointment (
+    Appointment_ID NUMBER PRIMARY KEY,
+    Patient_ID NUMBER,
+    Doctor_ID NUMBER,
+    Appiontment_Date DATE,
+    Time VARCHAR2(10),
+    Reason VARCHAR2(255),
+    CONSTRAINT fk_patient
+        FOREIGN KEY (Patient_ID) 
+        REFERENCES Patient (Patient_ID),
+    CONSTRAINT fk_doctor
+        FOREIGN KEY (Doctor_ID) 
+        REFERENCES Doctor (Doctor_ID)
+);
+--------------------------------------------
+CREATE TABLE Billing (
+    Billing_ID NUMBER PRIMARY KEY,
+    Patient_ID NUMBER,
+    Billing_Date DATE,
+    Amount NUMBER(10, 2),
+    Payment_Status VARCHAR2(20),
+    CONSTRAINT fk_patient_billing
+        FOREIGN KEY (Patient_ID) 
+        REFERENCES Patient (Patient_ID)
+);
+--------------------------------------------
+CREATE TABLE Department (
+    Department_ID NUMBER PRIMARY KEY,
+    Name VARCHAR2(100) NOT NULL,
+    Location VARCHAR2(100),
+    Head NUMBER,
+    CONSTRAINT fk_head
+        FOREIGN KEY (Head) 
+        REFERENCES Doctor (Doctor_ID)
+);
+--------------------------------------------
+CREATE TABLE Staff (
+    Staff_ID NUMBER PRIMARY KEY,
+    Name VARCHAR2(100) NOT NULL,
+    Role VARCHAR2(100),
+    Department_ID NUMBER,
+    Phone_Number VARCHAR2(15),
+    Email VARCHAR2(100),
+    CONSTRAINT fk_department
+        FOREIGN KEY (Department_ID) 
+        REFERENCES Department (Department_ID)
+);
+
+-------------------------------------------------------------------------------------------------------------------------------
+INSERT INTO Doctor (Doctor_ID, Name, Specialization, Phone_Number, Email) VALUES (1, 'Dr. John Smith', 'Cardiology', '555-1234', 'john.smith@example.com');
+INSERT INTO Doctor (Doctor_ID, Name, Specialization, Phone_Number, Email) VALUES (2, 'Dr. Emily Johnson', 'Neurology', '555-5678', 'emily.johnson@example.com');
+INSERT INTO Doctor (Doctor_ID, Name, Specialization, Phone_Number, Email) VALUES (3, 'Dr. Michael Williams', 'Orthopedics', '555-9101', 'michael.williams@example.com');
+INSERT INTO Doctor (Doctor_ID, Name, Specialization, Phone_Number, Email) VALUES (4, 'Dr. Sarah Brown', 'Pediatrics', '555-1122', 'sarah.brown@example.com');
+INSERT INTO Doctor (Doctor_ID, Name, Specialization, Phone_Number, Email) VALUES (5, 'Dr. James Davis', 'Dermatology', '555-1314', 'james.davis@example.com');
+INSERT INTO Doctor (Doctor_ID, Name, Specialization, Phone_Number, Email) VALUES (6, 'Dr. Jennifer Wilson', 'Gynecology', '555-1516', 'jennifer.wilson@example.com');
+INSERT INTO Doctor (Doctor_ID, Name, Specialization, Phone_Number, Email) VALUES (7, 'Dr. Robert Martinez', 'Ophthalmology', '555-1718', 'robert.martinez@example.com');
+INSERT INTO Doctor (Doctor_ID, Name, Specialization, Phone_Number, Email) VALUES (8, 'Dr. Patricia Anderson', 'Psychiatry', '555-1920', 'patricia.anderson@example.com');
+INSERT INTO Doctor (Doctor_ID, Name, Specialization, Phone_Number, Email) VALUES (9, 'Dr. Linda Thomas', 'Radiology', '555-2122', 'linda.thomas@example.com');
+INSERT INTO Doctor (Doctor_ID, Name, Specialization, Phone_Number, Email) VALUES (10, 'Dr. David Jackson', 'Oncology', '555-2324', 'david.jackson@example.com');
+END;
+----------------------------------------------------------------------------------------------------------------------------------
+INSERT INTO Patient (Patient_ID, Name, Date_of_Birth, Address, Phone_Number, Email, Emergency_Contact) 
+VALUES (100, 'Alice Brown', TO_DATE('1980-05-15', 'YYYY-MM-DD'), '123 Elm Street', '555-3011', 'alice.brown@example.com', '555-4011');
+INSERT INTO Patient (Patient_ID, Name, Date_of_Birth, Address, Phone_Number, Email, Emergency_Contact) 
+VALUES (101, 'Bob Smith', TO_DATE('1975-11-20', 'YYYY-MM-DD'), '456 Maple Avenue', '555-3022', 'bob.smith@example.com', '555-4022');
+INSERT INTO Patient (Patient_ID, Name, Date_of_Birth, Address, Phone_Number, Email, Emergency_Contact) 
+VALUES (102, 'Carol Johnson', TO_DATE('1990-01-10', 'YYYY-MM-DD'), '789 Oak Lane', '555-3033', 'carol.johnson@example.com', '555-4033');
+INSERT INTO Patient (Patient_ID, Name, Date_of_Birth, Address, Phone_Number, Email, Emergency_Contact) 
+VALUES (103, 'David Williams', TO_DATE('1985-08-25', 'YYYY-MM-DD'), '101 Pine Court', '555-3044', 'david.williams@example.com', '555-4044');
+INSERT INTO Patient (Patient_ID, Name, Date_of_Birth, Address, Phone_Number, Email, Emergency_Contact) 
+VALUES (104, 'Emma Davis', TO_DATE('2000-03-30', 'YYYY-MM-DD'), '202 Birch Road', '555-3055', 'emma.davis@example.com', '555-4055');
+INSERT INTO Patient (Patient_ID, Name, Date_of_Birth, Address, Phone_Number, Email, Emergency_Contact) 
+VALUES (105, 'Frank Miller', TO_DATE('1978-12-05', 'YYYY-MM-DD'), '303 Cedar Street', '555-3066', 'frank.miller@example.com', '555-4066');
+INSERT INTO Patient (Patient_ID, Name, Date_of_Birth, Address, Phone_Number, Email, Emergency_Contact) 
+VALUES (106, 'Grace Wilson', TO_DATE('1995-07-18', 'YYYY-MM-DD'), '404 Spruce Drive', '555-3077', 'grace.wilson@example.com', '555-4077');
+INSERT INTO Patient (Patient_ID, Name, Date_of_Birth, Address, Phone_Number, Email, Emergency_Contact) 
+VALUES (107, 'Henry Martinez', TO_DATE('1983-09-22', 'YYYY-MM-DD'), '505 Walnut Boulevard', '555-3088', 'henry.martinez@example.com', '555-4088');
+INSERT INTO Patient (Patient_ID, Name, Date_of_Birth, Address, Phone_Number, Email, Emergency_Contact) 
+VALUES (108, 'Ivy Anderson', TO_DATE('1992-04-15', 'YYYY-MM-DD'), '606 Redwood Terrace', '555-3099', 'ivy.anderson@example.com', '555-4099');
+INSERT INTO Patient (Patient_ID, Name, Date_of_Birth, Address, Phone_Number, Email, Emergency_Contact) 
+VALUES (109, 'Jack Thomas', TO_DATE('1988-02-10', 'YYYY-MM-DD'), '707 Aspen Circle', '555-3100', 'jack.thomas@example.com', '555-4100');
+END;
+-----------------------------------------------------------------------------------------------------------------------------------
+INSERT INTO Nurse (Nurse_ID, Name, Department, Phone_Number, Email) 
+VALUES (51, 'Nurse Olivia Brown', 'Pediatrics', '555-5011', 'olivia.brown@example.com');
+INSERT INTO Nurse (Nurse_ID, Name, Department, Phone_Number, Email) 
+VALUES (52, 'Nurse Liam Smith', 'Emergency', '555-5022', 'liam.smith@example.com');
+INSERT INTO Nurse (Nurse_ID, Name, Department, Phone_Number, Email) 
+VALUES (53, 'Nurse Emma Johnson', 'Surgery', '555-5033', 'emma.johnson@example.com');
+INSERT INTO Nurse (Nurse_ID, Name, Department, Phone_Number, Email) 
+VALUES (54, 'Nurse Noah Williams', 'Intensive Care', '555-5044', 'noah.williams@example.com');
+INSERT INTO Nurse (Nurse_ID, Name, Department, Phone_Number, Email) 
+VALUES (55, 'Nurse Ava Davis', 'Cardiology', '555-5055', 'ava.davis@example.com');
+INSERT INTO Nurse (Nurse_ID, Name, Department, Phone_Number, Email) 
+VALUES (56, 'Nurse Sophia Miller', 'Neurology', '555-5066', 'sophia.miller@example.com');
+INSERT INTO Nurse (Nurse_ID, Name, Department, Phone_Number, Email) 
+VALUES (57, 'Nurse Mason Wilson', 'Orthopedics', '555-5077', 'mason.wilson@example.com');
+INSERT INTO Nurse (Nurse_ID, Name, Department, Phone_Number, Email) 
+VALUES (58, 'Nurse Isabella Martinez', 'Oncology', '555-5088', 'isabella.martinez@example.com');
+INSERT INTO Nurse (Nurse_ID, Name, Department, Phone_Number, Email) 
+VALUES (59, 'Nurse Lucas Anderson', 'Gynecology', '555-5099', 'lucas.anderson@example.com');
+INSERT INTO Nurse (Nurse_ID, Name, Department, Phone_Number, Email) 
+VALUES (60, 'Nurse Mia Thomas', 'Dermatology', '555-5100', 'mia.thomas@example.com');
+END;
+-------------------------------------------------------------------------------------------------------------------------------------
+INSERT INTO Appointment (Appointment_ID, Patient_ID, Doctor_ID, Date, Time, Reason) 
+VALUES (1001, 100, 1, TO_DATE('2024-07-10', 'YYYY-MM-DD'), '09:00', 'Routine check-up');
+INSERT INTO Appointment (Appointment_ID, Patient_ID, Doctor_ID, Date, Time, Reason) 
+VALUES (1002, 101, 2, TO_DATE('2024-07-11', 'YYYY-MM-DD'), '10:30', 'Neurology consultation');
+INSERT INTO Appointment (Appointment_ID, Patient_ID, Doctor_ID, Date, Time, Reason) 
+VALUES (1003, 102, 3, TO_DATE('2024-07-12', 'YYYY-MM-DD'), '11:00', 'Orthopedics follow-up');
+INSERT INTO Appointment (Appointment_ID, Patient_ID, Doctor_ID, Date, Time, Reason) 
+VALUES (1004, 103, 4, TO_DATE('2024-07-13', 'YYYY-MM-DD'), '14:00', 'Pediatrics appointment');
+INSERT INTO Appointment (Appointment_ID, Patient_ID, Doctor_ID, Date, Time, Reason) 
+VALUES (1005, 104, 5, TO_DATE('2024-07-14', 'YYYY-MM-DD'), '15:30', 'Dermatology consultation');
+INSERT INTO Appointment (Appointment_ID, Patient_ID, Doctor_ID, Date, Time, Reason) 
+VALUES (1006, 105, 6, TO_DATE('2024-07-15', 'YYYY-MM-DD'), '09:30', 'Gynecology check-up');
+INSERT INTO Appointment (Appointment_ID, Patient_ID, Doctor_ID, Date, Time, Reason) 
+VALUES (1007, 106, 7, TO_DATE('2024-07-16', 'YYYY-MM-DD'), '10:00', 'Ophthalmology consultation');
+INSERT INTO Appointment (Appointment_ID, Patient_ID, Doctor_ID, Date, Time, Reason) 
+VALUES (1008, 107, 8, TO_DATE('2024-07-17', 'YYYY-MM-DD'), '11:30', 'Psychiatry appointment');
+INSERT INTO Appointment (Appointment_ID, Patient_ID, Doctor_ID, Date, Time, Reason) 
+VALUES (1009, 108, 9, TO_DATE('2024-07-18', 'YYYY-MM-DD'), '14:30', 'Radiology consultation');
+INSERT INTO Appointment (Appointment_ID, Patient_ID, Doctor_ID, Date, Time, Reason) 
+VALUES (1010, 109, 10, TO_DATE('2024-07-19', 'YYYY-MM-DD'), '15:00', 'Oncology follow-up');
+END;
+-----------------------------------------------------------------------------------------------------------------------------
+INSERT INTO Billing (Billing_ID, Patient_ID, Date, Amount, Payment_Status) 
+VALUES (1, 100, TO_DATE('2024-07-01', 'YYYY-MM-DD'), 150.00, 'Paid');
+INSERT INTO Billing (Billing_ID, Patient_ID, Date, Amount, Payment_Status) 
+VALUES (2, 101, TO_DATE('2024-07-02', 'YYYY-MM-DD'), 200.50, 'Pending');
+INSERT INTO Billing (Billing_ID, Patient_ID, Date, Amount, Payment_Status) 
+VALUES (3, 102, TO_DATE('2024-07-03', 'YYYY-MM-DD'), 75.25, 'Paid');
+INSERT INTO Billing (Billing_ID, Patient_ID, Date, Amount, Payment_Status) 
+VALUES (4, 103, TO_DATE('2024-07-04', 'YYYY-MM-DD'), 300.00, 'Paid');
+INSERT INTO Billing (Billing_ID, Patient_ID, Date, Amount, Payment_Status) 
+VALUES (5, 104, TO_DATE('2024-07-05', 'YYYY-MM-DD'), 125.75, 'Pending');
+INSERT INTO Billing (Billing_ID, Patient_ID, Date, Amount, Payment_Status) 
+VALUES (6, 105, TO_DATE('2024-07-06', 'YYYY-MM-DD'), 180.00, 'Paid');
+INSERT INTO Billing (Billing_ID, Patient_ID, Date, Amount, Payment_Status) 
+VALUES (7, 106, TO_DATE('2024-07-07', 'YYYY-MM-DD'), 90.50, 'Paid');
+INSERT INTO Billing (Billing_ID, Patient_ID, Date, Amount, Payment_Status) 
+VALUES (8, 107, TO_DATE('2024-07-08', 'YYYY-MM-DD'), 210.25, 'Pending');
+INSERT INTO Billing (Billing_ID, Patient_ID, Date, Amount, Payment_Status) 
+VALUES (9, 108, TO_DATE('2024-07-09', 'YYYY-MM-DD'), 150.75, 'Paid');
+INSERT INTO Billing (Billing_ID, Patient_ID, Date, Amount, Payment_Status) 
+VALUES (10, 109, TO_DATE('2024-07-10', 'YYYY-MM-DD'), 220.00, 'Paid');
+-----------------------------------------------------------------------------------------------------------------------------
+INSERT INTO Department (Department_ID, Name, Location, Head) 
+VALUES (1, 'Cardiology', 'Main Building, 3rd Floor', 1);
+INSERT INTO Department (Department_ID, Name, Location, Head) 
+VALUES (2, 'Neurology', 'East Wing, 5th Floor', 2);
+INSERT INTO Department (Department_ID, Name, Location, Head) 
+VALUES (3, 'Orthopedics', 'West Wing, 2nd Floor', 3);
+INSERT INTO Department (Department_ID, Name, Location, Head) 
+VALUES (4, 'Pediatrics', 'Main Building, 4th Floor', 4);
+INSERT INTO Department (Department_ID, Name, Location, Head) 
+VALUES (5, 'Dermatology', 'East Wing, 1st Floor', 5);
+INSERT INTO Department (Department_ID, Name, Location, Head) 
+VALUES (6, 'Gynecology', 'West Wing, 3rd Floor', 6);
+INSERT INTO Department (Department_ID, Name, Location, Head) 
+VALUES (7, 'Ophthalmology', 'Main Building, 2nd Floor', 7);
+INSERT INTO Department (Department_ID, Name, Location, Head) 
+VALUES (8, 'Psychiatry', 'East Wing, 4th Floor', 8);
+INSERT INTO Department (Department_ID, Name, Location, Head) 
+VALUES (9, 'Radiology', 'West Wing, 1st Floor', 9);
+INSERT INTO Department (Department_ID, Name, Location, Head) 
+VALUES (10, 'Oncology', 'Main Building, 5th Floor', 10);
+-----------------------------------------------------------------------------------------------------------------------------
+INSERT INTO Staff (Staff_ID, Name, Role, Department_ID, Phone_Number, Email) 
+VALUES (501, 'John Doe', 'Nurse', 1, '555-5011', 'john.doe@example.com');
+INSERT INTO Staff (Staff_ID, Name, Role, Department_ID, Phone_Number, Email) 
+VALUES (502, 'Jane Smith', 'Administrator', 2, '555-5022', 'jane.smith@example.com');
+INSERT INTO Staff (Staff_ID, Name, Role, Department_ID, Phone_Number, Email) 
+VALUES (503, 'Michael Johnson', 'Technician', 3, '555-5033', 'michael.johnson@example.com');
+INSERT INTO Staff (Staff_ID, Name, Role, Department_ID, Phone_Number, Email) 
+VALUES (504, 'Emily Williams', 'Receptionist', 4, '555-5044', 'emily.williams@example.com');
+INSERT INTO Staff (Staff_ID, Name, Role, Department_ID, Phone_Number, Email) 
+VALUES (505, 'Daniel Brown', 'Nurse', 5, '555-5055', 'daniel.brown@example.com');
+INSERT INTO Staff (Staff_ID, Name, Role, Department_ID, Phone_Number, Email) 
+VALUES (506, 'Sarah Davis', 'Technician', 6, '555-5066', 'sarah.davis@example.com');
+INSERT INTO Staff (Staff_ID, Name, Role, Department_ID, Phone_Number, Email) 
+VALUES (507, 'Matthew Wilson', 'Administrator', 7, '555-5077', 'matthew.wilson@example.com');
+INSERT INTO Staff (Staff_ID, Name, Role, Department_ID, Phone_Number, Email) 
+VALUES (508, 'Olivia Martinez', 'Receptionist', 8, '555-5088', 'olivia.martinez@example.com');
+INSERT INTO Staff (Staff_ID, Name, Role, Department_ID, Phone_Number, Email) 
+VALUES (509, 'Ethan Anderson', 'Nurse', 9, '555-5099', 'ethan.anderson@example.com');
+INSERT INTO Staff (Staff_ID, Name, Role, Department_ID, Phone_Number, Email) 
+VALUES (510, 'Ava Thomas', 'Technician', 10, '555-5100', 'ava.thomas@example.com');
